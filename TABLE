@@ -1,23 +1,64 @@
+-- ตารางประเภทสินค้า
 CREATE TABLE PRODUCT_TYPE (
     ProductTypeNo CHAR(5) PRIMARY KEY,
     ProductTypeName VARCHAR(20)
 );
 
+-- ตารางสินค้า
 CREATE TABLE PRODUCT (
     ProductNo CHAR(20) PRIMARY KEY,
     ProductName VARCHAR(100),
-    ProductTypeNo CHAR(5),
+    ProductTypeNo CHAR(5) NULL,
     CostPrice DECIMAL(10,2),
     SalePrice DECIMAL(10,2),
     QTY INT DEFAULT 0,
     FOREIGN KEY (ProductTypeNo) REFERENCES PRODUCT_TYPE(ProductTypeNo)
 );
 
+-- ตารางสถานะ
+CREATE TABLE STATUS (
+    Status CHAR(2) PRIMARY KEY,
+    StatusName VARCHAR(50)
+);
+
+INSERT INTO STATUS VALUES ('01','ปกติ');
+
+-- ตารางการขาย
 CREATE TABLE SALE_H (
     SaleNo VARCHAR(10) PRIMARY KEY,
     SaleDate DATETIME,
-    NetPrice DECIMAL(10,2),
+    NetPrice DECIMAL(10,2) NULL,
     Status CHAR(2) DEFAULT '01',
     UserNo CHAR(10),
-    FOREIGN KEY (Status) REFERENCES STATUS(Status)  -- ต้องมีตาราง STATUS ก่อน
+    FOREIGN KEY (Status) REFERENCES STATUS(Status)
 );
+
+-- ข้อมูลประเภทสินค้า
+INSERT INTO PRODUCT_TYPE VALUES('10000','หนังสือ'); 
+INSERT INTO PRODUCT_TYPE VALUES('20000','เครื่องเขียน'); 
+INSERT INTO PRODUCT_TYPE VALUES('30000','ซีดี/ดีวีดี'); 
+INSERT INTO PRODUCT_TYPE VALUES('40000','อุปกรณ์ต่อพ่วง');
+
+-- ข้อมูลสินค้า
+INSERT INTO PRODUCT VALUES('10101','การวิเคราะห์และออกแบบระบบ','10000',150,200,0); 
+INSERT INTO PRODUCT VALUES('20201','ปากกาลูกลื่น','20000',15,20,0); 
+INSERT INTO PRODUCT VALUES('20101','สมุดโน้ตคละลาย','20000',20,35,0); 
+INSERT INTO PRODUCT VALUES('20102','สมุดโน้ตไม่มีเส้น','20000',25,40,0); 
+INSERT INTO PRODUCT VALUES('30101','Iron Man 3','30000',300,450,0); 
+INSERT INTO PRODUCT VALUES('20202','ปากกา Whiteboard','20000',10,15,0); 
+INSERT INTO PRODUCT VALUES('20203','ดินสอกด','20000',20,25,0); 
+INSERT INTO PRODUCT VALUES('30102','พี่มากพระโขนง','30000',150,250,0); 
+INSERT INTO PRODUCT VALUES('30103','ETC Bring it Back','30000',100,150,0); 
+INSERT INTO PRODUCT VALUES('30104','Justin Bieber','30000',200,250,0); 
+INSERT INTO PRODUCT (ProductNo, ProductName, ProductTypeNo, CostPrice, SalePrice, QTY) 
+VALUES('10104','SQL','10000',150,250,0); 
+
+-- ข้อมูลการขาย (แก้วันที่เป็น YYYY-MM-DD)
+INSERT INTO SALE_H(SaleNo, SaleDate, UserNo) VALUES('5610010011','2013-06-12','JohnD'); 
+INSERT INTO SALE_H(SaleNo, SaleDate, UserNo) VALUES('5610010012','2013-07-13','JohnD'); 
+INSERT INTO SALE_H(SaleNo, SaleDate, UserNo) VALUES('5610010013','2013-07-13','JohnD'); 
+INSERT INTO SALE_H(SaleNo, SaleDate, UserNo) VALUES('5610010014','2013-07-20','JaneD'); 
+INSERT INTO SALE_H(SaleNo, SaleDate, UserNo) VALUES('5610010015','2013-07-20','JaneD'); 
+INSERT INTO SALE_H(SaleNo, SaleDate, UserNo) VALUES('5610010016','2013-07-20','BradP'); 
+INSERT INTO SALE_H(SaleNo, SaleDate, UserNo) VALUES('5610010017','2013-08-04','JohnD'); 
+INSERT INTO SALE_H(SaleNo, SaleDate, UserNo) VALUES('5610010018','2013-08-04','BradP');
